@@ -37,3 +37,15 @@ function parseStringCriteria(src, qobj, prop) {
 		}
 	}
 }
+
+function parseSelectCriteria(src, qobj, prop) {
+	var r = [];
+	for ( var key in src) {
+		if (src.hasOwnProperty(key) && src[key] === true) r.push(key);
+	}
+	if (r.length === 1) {
+		qobj[prop] = r[0];
+	} else if (r.length > 1) {
+		qobj[prop] = {"$in" : r.sort()};
+	}
+}
