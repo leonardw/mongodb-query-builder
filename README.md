@@ -5,8 +5,9 @@
 Utility to assist in building MongoDB query JSON. Supports wildcard in inputs.
 
 ## Usage
-
-
+```sh
+git clone https://github.com/leonardw/mongodb-query-builder
+```
 
 ## Developing
 
