@@ -10,11 +10,11 @@ function parseStringCriteria(src, qobj, prop) {
 		var input = src.trim(), len = input.length, pre = '', post = '';
 		if (len > 0) {
 			var firstWildcard = input.indexOf('*');
-			if (firstWildcard > -1) {
-				input = input.replace(/\*+/, '*'); //compress consecutive *s
+			if (firstWildcard > -1 || input.indexOf('?')>-1) {
+				input = input.replace(/\*+/g, '*'); //compress consecutive *s
 				if (input !== '*') { //skip if only *s, same as doing nothing
 					if (input.charAt(input.length - 1) === '*') {
-						input = input.replace(/\*$/, '');
+						input = input.replace(/\*$/g, '');
 					} else {
 						post = '$';
 					}
@@ -23,8 +23,9 @@ function parseStringCriteria(src, qobj, prop) {
 					} else {
 						pre = '^';
 					}
-					input = input.replace(/\./, '\\.'); //escape dot
-					input = input.replace(/\*+/, '.*'); //convert * to regex
+					input = input.replace(/\./g, '\\.'); //escape dot
+					input = input.replace(/\?/g, '.'); //convert ? to regex
+					input = input.replace(/\*+/g, '.*'); //convert * to regex
 					qobj[prop] = {
 						$regex : pre + input + post
 					};
